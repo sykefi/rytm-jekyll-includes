@@ -1,5 +1,4 @@
 {%- if include.module -%}
- 
   <div class="btn-toolbar nav-heading">
     <div class="moduletitle">{{ include.module.title }}</div>
     {%- if pageModuleVersion -%}
@@ -24,7 +23,7 @@
   
   <ul class="nav flex-column">
     {%- for item in include.module.nav_items -%}
-      {%- capture path %}{% include getNavItemPath.html item=item %}{%- endcapture -%}
+      {%- capture path %}{%- include common/getNavItemPath.html item=item -%}{%- endcapture -%}
       {%- if item.heading -%}
       <li class="nav-item header">
         <span>{{ item.title }}</span>
@@ -48,7 +47,7 @@
         {%- else -%}
           {%- assign item_class = "" -%}
         {%- endif -%}
-        {%- capture subpath %}{% include common/getNavItemPath.html item=subitem %}{%- endcapture -%}
+        {%- capture subpath -%}{%- include common/getNavItemPath.html item=subitem -%}{%- endcapture -%}
       <li class="nav-item {{item_class}}">
         <a class="nav-link sublevel" href="{{ site.url }}/{{ basepath}}/{{ path }}{{ subpath }}">{{ subitem.title }}</a></li>
       </li>
