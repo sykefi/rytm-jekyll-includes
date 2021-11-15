@@ -41,18 +41,18 @@
       </li>
       {%- endif -%}
       </li>
-        {%- for subitem in item.subitems -%}
+      {%- for subitem in item.subitems -%}
         {%- assign to_match = include.module.basepath | append: '-' | append: subitem.id -%}
         {%- if pageId == to_match -%}
           {%- assign item_class = "active" -%}
         {%- else -%}
           {%- assign item_class = "" -%}
         {%- endif -%}
+        {%- capture subpath %}{% include common/getNavItemPath.html item=subitem %}{%- endcapture -%}
       <li class="nav-item {{item_class}}">
-        {%- capture subpath %}{% include getNavItemPath.html item=subitem %}{%- endcapture -%}
-        <a class="nav-link sublevel" href="{{ site.url }}/{{ basepath}}/{{ path }}/{{ subpath }}">{{ subitem.title }}</a></li>
+        <a class="nav-link sublevel" href="{{ site.url }}/{{ basepath}}/{{ path }}{{ subpath }}">{{ subitem.title }}</a></li>
       </li>
-        {%- endfor -%}
+      {%- endfor -%}
     {%- endfor -%}
   </ul>
 {%- endif -%}

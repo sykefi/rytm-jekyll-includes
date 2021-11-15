@@ -21,40 +21,15 @@
           {%- assign listclass = "nav-item" -%}
         {%- endif -%}
         {%- for item in nav_items -%}
-          {%- if item.kind == "module" -%}
-            {%- assign navdata = site.data.modules[item.id] -%}
-            {%- assign default_version = navdata.versions | where_exp: "version", "version.default" | first -%}
-            {%- unless default_version -%}
-              {%- assign default_version = navdata.versions | first -%}
-            {%- endunless -%}   
-          {%- elsif item.kind == "project" -%}
-            {%- assign navdata = site.data.projects[item.id] -%}
-          {%- endif -%}
-          {%- if navdata -%}
-            {%- assign basepath = navdata.basepath -%}
-            {%- assign default_item = navdata.nav_items | where_exp: "item", "item.default" | first -%}
-            {%- unless default_item -%}
-              {%- assign default_item = navdata.nav_items | first -%}
-            {%- endunless -%}
-            {%- capture default_path -%}{%- include getNavItemPath.html item=default_item -%}{%- endcapture -%}
-            {%- if item.kind == "module" -%}
-              {%- if default_version -%}
-                {%- assign path = basepath | append: '/' | append: default_version.path | append: '/' | append: default_path -%}
-              {%- else -%}
-                {%- assign path = basepath | append: '/' | append: default_path -%}
-              {%- endif --%}
-            {%- elsif item.kind == "project" -%}
-              {%- assign path = basepath | append: '/' | append: default_path -%}
-            {%- endif -%}
-            <li class="{{ listclass }}">
-              <a class="{{ linkclass }}" href="{{ site.url }}/{{ path }}">{{ navdata.title }}</a>
-            </li>
-          {%- endif -%}
+          {%- include common/navbar_item.html item=item -%}
+          {%- for subitem in item.subitems -%}
+            {%- include common/navbar_item.html item=subitem itemclass="sublevel" -%}
+          {%- endfor -%}
         {%- endfor -%}
         {%- if menu.nav_items -%}
             </ul>
           </li>
-        {%- endif -%}  
+        {%- endif -%}
       {%- endfor -%}
       </ul>
       <div class="d-flex">

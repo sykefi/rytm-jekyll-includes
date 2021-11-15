@@ -1,5 +1,8 @@
 <!doctype html>
-  {%- comment -%} The following code detects the current module from the page.url: {%- endcomment -%}
+  {%- comment -%}
+    The following code detects the current module from the page.url:
+    ================================================================
+  {%- endcomment -%}
   {%- assign page_url_segments = page.url | split: '/' -%}
   {%- for mod_hash in site.data.modules -%}
     {%- assign mod = mod_hash[1] -%}
@@ -15,10 +18,13 @@
     {%- endfor -%}
   {%- endfor -%}
   {%- if current_module -%}
-    {%- capture pageTitle %}{% include getPageTitle.html haystack=current_module.nav_items needle=page.id %}{% endcapture -%}
+    {%- capture pageTitle %}{%- include common/getPageTitle.html haystack=current_module.nav_items needle=page.id -%}{%- endcapture -%}
     {%- assign pageTitle = current_module.title | append: ' - ' | append: pageTitle -%}
-    {%- capture filePath -%}{%- include getFilePath.html haystack=current_module.nav_items needle=page.id -%}{%- endcapture -%}
-    {%- comment -%} The following code detects the current module version from the page.url: {%- endcomment -%}
+    {%- capture filePath -%}{%- include common/getFilePath.html haystack=current_module.nav_items needle=page.id -%}{%- endcapture -%}
+    {%- comment -%}
+      The following code detects the current module version from the page.url:
+      ========================================================================
+    {%- endcomment -%}
     {%- for ver in current_module.versions -%}
       {%- assign to_match = page.url | slice: basepath_end_index, page.url.size | split: '/' | first -%}
       {%- if ver.path == to_match -%}
@@ -138,13 +144,15 @@
     <div id="header_wrap" class="outer">
         <header class="thinner">
           <div class="brand-container">
-            <a class="navbar-brand long" href="{{ site.home }}/">Kaavamääräysoppaat</a>
-            <div class="betatag"><span title="Kaavamääräysoppaat -sivusto ei ole vielä täysin valmis">&beta;eta</span></div>
+            <a class="navbar-brand long" href="{{ site.home }}/">{{site.name.long}}</a>
+            {%- if site.beta -%}
+            <div class="betatag"><span title="{site.name.long}} -sivusto ei ole vielä täysin valmis">&beta;eta</span></div>
+            {%- endif -%}
           </div>
           <a class="owner" href="https://ym.fi/rakentaminen-ja-maankaytto">Ympäristöministeriö / Rakentaminen ja maankäyttö</a>
         </header>
         <header class="print-title-block">
-          <a href="{{ site.home }}"><h1 class="title">Kaavamääräysoppaat</h1></a>
+          <a href="{{ site.home }}"><h1 class="title">{{site.name.short}}</h1></a>
           <p class="origin">Lähde: <a href="{{ site.url }}{{ page.url }}">{{ site.url }}/{{ page.url }}</a></p>
         </header>
     </div>
