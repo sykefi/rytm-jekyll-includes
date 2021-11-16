@@ -9,7 +9,7 @@
             {%- break -%}
         {%- else -%}
             {%- if item.subitems -%}
-                {%- capture ret -%}{%- include getFilePath.html haystack=item.subitems needle=include.needle -%}{%- endcapture -%}
+                {%- capture ret -%}{%- include common/getFilePath.html haystack=item.subitems needle=include.needle -%}{%- endcapture -%}
                 {%- if ret != "" -%}
                     {%- if item.path -%}
                         {{ item.path | append: '/' }}
