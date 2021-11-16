@@ -3,7 +3,7 @@
         {%- if item.id == include.needle -%}{{ item.title }}{%- break -%}
         {%- else -%}
             {%- if item.subitems -%}
-                {%- capture ret -%}{%- include getPageTitle.html haystack=item.subitems needle=include.needle -%}{%- endcapture -%}
+                {%- capture ret -%}{%- include common/getPageTitle.html haystack=item.subitems needle=include.needle -%}{%- endcapture -%}
                 {%- if ret != "" -%}
                     {{ item.title}} - {{ ret }}
                     {%- break -%}
