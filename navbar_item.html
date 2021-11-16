@@ -13,7 +13,7 @@
     {%- unless default_item -%}
         {%- assign default_item = navdata.nav_items | first -%}
     {%- endunless -%}
-    {%- capture default_path -%}{%- include getNavItemPath.html item=default_item -%}{%- endcapture -%}
+    {%- capture default_path -%}{%- include common/getNavItemPath.html item=default_item -%}{%- endcapture -%}
     {%- if include.item.kind == "module" -%}
         {%- if default_version -%}
             {%- assign path = basepath | append: '/' | append: default_version.path | append: '/' | append: default_path -%}
