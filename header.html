@@ -3,18 +3,19 @@
     The following code detects the current module from the page.url:
     ================================================================
   {%- endcomment -%}
-  {%- assign page_url_segments = page.url | split: '/' -%}
   {%- for mod_hash in site.data.modules -%}
     {%- assign mod = mod_hash[1] -%}
-    {%- assign index = 1 -%}
-    {%- for segment in page_url_segments offset:1 -%}
-      {%- assign to_match = page.url | slice: index, mod.basepath.size -%}
+    {%- assign best_match = "" -%}
+    {%- for idx in (0..page.url.size) -%}
+      {%- assign to_match = page.url | slice: idx, mod.basepath.size -%}
       {%- if mod.basepath ==  to_match -%}
-        {%- assign current_module = mod -%}
-        {%- assign basepath_end_index = index | plus: segment.size | plus: 1 -%}
-        {%- break -%}
+        {%- if mod.basepath.size > best_match.size -%}
+          {%- assign current_module = mod -%}
+          {%- assign best_match = mod.basepath -%}
+          {%- assign basepath_end_index = idx | plus: best_match.size | plus: 1 -%}
+          {%- break -%}
+        {%- endif -%}
       {%- endif -%}
-      {%- assign index = index | plus: segment.size | plus: 1 -%}
     {%- endfor -%}
   {%- endfor -%}
   {%- if current_module -%}
@@ -25,9 +26,10 @@
       The following code detects the current module version from the page.url:
       ========================================================================
     {%- endcomment -%}
+    {%- assign to_match = page.url | slice: basepath_end_index, page.url.size -%}
+    {%- assign to_match = to_match | split: "/" -%}
     {%- for ver in current_module.versions -%}
-      {%- assign to_match = page.url | slice: basepath_end_index, page.url.size | split: '/' | first -%}
-      {%- if ver.path == to_match -%}
+      {%- if ver.path == to_match[0] -%}
         {%- assign pageModuleVersion = ver.path -%}
         {%- break -%}
       {%- endif -%}
