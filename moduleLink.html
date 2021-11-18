@@ -1,0 +1,17 @@
+{%- if include.module and include.path and include.title -%}
+    {%- assign mod = site.data.modules[include.module] -%}
+    {%- if mod -%}
+        {%- if mod.versions -%}
+            {%- assign default_version = mod.versions | where_exp: "version", "version.default" | first -%}
+            {%- unless default_version -%}
+                {%- assign default_version = mod.versions | first -%}
+            {%- endunless -%}
+            {%- capture depending_version -%}{%- include common/getDependencyVersion.html haystack=current_module needle=include.module -%}{%- endcapture -%}
+            {%- if !depending_version -%}
+                {%- assign depending_version = default_version -%}
+            {%- endif -%}
+            <a href="/{{mod.basepath}}/{{depending_version}}/{{include.path}}">{{include.title}}</a>
+        {%- endif -%}
+        <a href="/{{mod.basepath}}/{{include.path}}">{{include.title}}</a>
+    {%- endif -%}
+{%- endif -%}

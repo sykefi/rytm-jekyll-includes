@@ -1,0 +1,17 @@
+{%- if include.haystack and include.needle -%}
+    {%- for dep in include.haystack.dependencies -%}
+        {%- if dep.module == include.needle -%}
+            {{dep.version}}
+            {{%- break -%}}
+        {%- else -%}
+            {%- assign mod = site.data.modules[dep.module] -%}
+            {%- if mod -%}
+                {%- capture version -%}{%- include common/getDependencyVersion.html haystack=mod needle=include.needle -%}{%- endcapture-%}
+                {%- if res -%}
+                    {{version}}
+                    {{%- break -%}}
+                {%- endif -%}
+            {%- endif -%}
+        {%- endif -%}
+    {%- endfor -%}
+{%- endif -%}
