@@ -1,0 +1,31 @@
+{%- for mod_hash in site.data.modules -%}
+    {%- assign mod = mod_hash[1] -%}
+    {%- assign best_match = "" -%}
+    {%- assign idx = 0 -%}
+    {%- assign url_segments = page.url | split: '/' -%}
+    {%- for segment in url_segments -%}
+      {%- assign seg_len = segment.size | plus: 0 -%}
+      {%- for i in (0..seg_len) -%}
+        {%- assign idx = idx | plus: 1 -%}
+      {%- endfor --%}
+      {%- assign to_match = page.url | slice: idx, mod.basepath.size -%}
+      {%- if mod.basepath ==  to_match -%}
+        {%- if mod.basepath.size > best_match.size -%}
+          {%- assign current_module = mod -%}
+          {%- assign best_match = mod.basepath -%}
+          {%- assign basepath_end_index = idx | plus: best_match.size | plus: 1 -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  {%- if current_module -%}
+    {%- assign to_match = page.url | slice: basepath_end_index, page.url.size -%}
+      {%- assign to_match = to_match | split: "/" -%}
+      {%- for ver in current_module.versions -%}
+        {%- if ver.path == to_match[0] -%}
+          {%- assign current_module_version = ver -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}

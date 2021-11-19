@@ -1,21 +1,21 @@
 {%- if include.module -%}
   <div class="btn-toolbar nav-heading">
     <div class="moduletitle">{{ include.module.title }}</div>
-    {%- if pageModuleVersion -%}
+    {%- if current_module_version -%}
     <div class="btn-group dropleft">
         <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Versio {{ pageModuleVersion }}
+            Versio {{ current_module_version.id }}
         </button>
         <div class="dropdown-menu">
             <span class="dropdown-header">Saatavilla olevat versiot</span>
-            {%- assign my_ver = '/' | append: pageModuleVersion | append: '/' -%}
+            {%- assign my_ver = '/' | append: current_module_version.path | append: '/' -%}
             {%- for version in include.module.versions -%}
             {%- assign other_ver = '/' | append: version.path | append: '/' -%}
             <a class="dropdown-item" href="{{ site.url }}{{ page.url | replace: my_ver, other_ver }}" title="{{ version.date | date: '%d.%m.%Y' }}">{{ version.id }}:&nbsp;{{ version.title }}</a>
             {%- endfor -%}
         </div>
     </div>
-      {%- assign basepath = include.module.basepath | append: "/" | append: pageModuleVersion -%}
+      {%- assign basepath = include.module.basepath | append: "/" | append: current_module_version.path -%}
     {%- else -%}
       {%- assign basepath = include.module.basepath -%}
     {%- endif -%}

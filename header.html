@@ -3,6 +3,7 @@
     The following code detects the current module from the page.url:
     ================================================================
   {%- endcomment -%}
+<<<<<<< HEAD
   {%- for mod_hash in site.data.modules -%}
     {%- assign mod = mod_hash[1] -%}
     {%- assign best_match = "" -%}
@@ -18,6 +19,9 @@
       {%- endif -%}
     {%- endfor -%}
   {%- endfor -%}
+=======
+  {%- include common/assignCurrentModule.html -%}
+>>>>>>> bfdf52f (Korjattu moduleLink-makro, refaktoroitu valitun modulin ja version tunnistus omaan makroon)
   {%- if current_module -%}
     {%- capture pageTitle %}{%- include common/getPageTitle.html haystack=current_module.nav_items needle=page.id -%}{%- endcapture -%}
     {%- assign pageTitle = current_module.title | append: ' - ' | append: pageTitle -%}
@@ -27,6 +31,7 @@
       The following code detects the current module version from the page.url:
       ========================================================================
     {%- endcomment -%}
+<<<<<<< HEAD
     {%- assign to_match = page.url | slice: basepath_end_index, page.url.size -%}
     {%- assign to_match = to_match | split: "/" -%}
     {%- for ver in current_module.versions -%}
@@ -35,6 +40,8 @@
         {%- break -%}
       {%- endif -%}
     {%- endfor -%}
+=======
+>>>>>>> bfdf52f (Korjattu moduleLink-makro, refaktoroitu valitun modulin ja version tunnistus omaan makroon)
     {%- assign gh_repo = current_module.github.owner_name | append: '/' | append: current_module.github.repository_name -%}
     {%- assign pageId = current_module.basepath | append: '-' | append: page.id -%}
   {%- else -%}
@@ -97,10 +104,10 @@
     
     function setModifiedDate() { 
       if ("{{ filePath }}" !== "" && document.getElementById('last-modified')) {
-        if ("{{ gh_repo }}" !== "" && "{{ current_module.id}}" !== "") {
+        if ("{{ gh_repo }}" !== "" && "{{ current_module }}" !== "") {
           var module_path = "{{ current_module.basepath}}";
-          if ("{{ pageModuleVersion }}" !== "") {
-            module_path += "/" + "{{ pageModuleVersion }}";
+          if ("{{ current_module_version.path }}" !== "") {
+            module_path += "/" + "{{ current_module_version.path }}";
           }
           /*
             limit the commits to the linked submodule commit date:

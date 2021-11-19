@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {%- if include.module and include.path and include.title -%}
     {%- assign mod = site.data.modules[include.module] -%}
     {%- if mod -%}
@@ -14,4 +15,31 @@
         {%- endif -%}
         <a href="/{{mod.basepath}}/{{include.path}}">{{include.title}}</a>
     {%- endif -%}
+=======
+{%- if include.moduleId and include.path and include.title -%}
+    {%- if current_module == nil -%}
+        {%- include common/assignCurrentModule.html -%}
+    {%- endif -%}
+    {%- assign module = site.data.modules[include.moduleId] -%}
+    {%- if module -%}
+        {%- if module.versions -%}
+            {%- assign default_version = module.versions | where_exp: "version", "version.default" | first -%}
+            {%- unless default_version -%}
+                {%- assign default_version = module.versions | first -%}
+            {%- endunless -%}
+            {%- assign traversed = "" | split: "," -%}
+            {%- capture depending_version_path -%}{%- include common/getDependencyVersionPath.html current_module=current_module current_module_version=current_module_version target=module targetId=include.moduleId traversed=traversed -%}{%- endcapture -%}
+            {%- if depending_version_path == "" -%}
+                {%- assign depending_version_path = default_version.path -%}
+            {%- endif -%}
+            <a href="/{{module.basepath}}/{{depending_version_path}}/{{include.path}}">{{include.title}}</a>
+        {%- else -%}
+            <a href="/{{module.basepath}}/{{include.path}}">{{include.title}}</a>
+        {%- endif -%}
+    {%- else -%}
+        <span class="linkerror" title="Tuntematon moduli '{{include.moduleId}}'">[Linkitysvirhe]</span> 
+    {%- endif -%}
+{%- else -%}
+    <span class="linkerror" title="Joko moduleId, path tai title puuttuvat">[Linkitysvirhe]</span> 
+>>>>>>> bfdf52f (Korjattu moduleLink-makro, refaktoroitu valitun modulin ja version tunnistus omaan makroon)
 {%- endif -%}
