@@ -14,9 +14,9 @@
             {%- if depending_version_path == "" -%}
                 {%- assign depending_version_path = default_version.path -%}
             {%- endif -%}
-            <a href="/{{module.basepath}}/{{depending_version_path}}/{{include.path}}">{{include.title}}</a>
+            <a href="{{site.url}}/{{module.basepath}}/{{depending_version_path}}/{{include.path}}">{{include.title}}</a>
         {%- else -%}
-            <a href="/{{module.basepath}}/{{include.path}}">{{include.title}}</a>
+            <a href="{{site.url}}/{{module.basepath}}/{{include.path}}">{{include.title}}</a>
         {%- endif -%}
     {%- else -%}
         <span class="linkerror" title="Tuntematon moduli '{{include.moduleId}}'">[Linkitysvirhe]</span> 

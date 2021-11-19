@@ -5,18 +5,17 @@
       {%- assign idx = 0 -%}
       {%- assign url_segments = page.url | split: '/' -%}
       {%- for segment in url_segments -%}
-        {%- assign seg_len = segment.size | plus: 0 -%}
+        {%- assign seg_len = segment.size -%}
         {%- for i in (0..seg_len) -%}
           {%- assign idx = idx | plus: 1 -%}
         {%- endfor -%}
         {%- assign to_match = page.url | slice: idx, mod.basepath.size -%}
-        <!-- if "{{mod.basepath}}" == "{{to_match}}" -->
         {%- if mod.basepath == to_match -%}
-          <!-- if "{{mod.basepath.size}}" > "{{best_match.size}}" -->
           {%- if mod.basepath.size > best_match.size -%}
             {%- assign current_module = mod -%}
             {%- assign best_match = mod.basepath -%}
-            {%- assign basepath_end_index = idx | plus: best_match.size | plus: 1 -%}
+            {%- assign idx = idx | plus: best_match.size | plus: 1 -%}
+            {%- assign basepath_end_index = idx -%}
             {%- break -%}
           {%- endif -%}
         {%- endif -%}

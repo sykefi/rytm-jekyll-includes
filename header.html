@@ -149,7 +149,7 @@
     <div id="header_wrap" class="outer">
         <header class="thinner">
           <div class="brand-container">
-            <a class="navbar-brand long" href="{{ site.home }}/">{{site.name}}</a>
+            <a class="navbar-brand long" href="{{ site.home }}">{{site.name}}</a>
             {%- if site.beta -%}
             <div class="betatag"><span title="{site.name}} -sivusto ei ole vielä täysin valmis">&beta;eta</span></div>
             {%- endif -%}
@@ -158,7 +158,7 @@
         </header>
         <header class="print-title-block">
           <a href="{{ site.home }}"><h1 class="title">{{site.name_short}}</h1></a>
-          <p class="origin">Lähde: <a href="{{ site.url }}{{ page.url }}">{{ site.url }}/{{ page.url }}</a></p>
+          <p class="origin">Lähde: <a href="{{ site.url }}/{{ page.url }}">{{ site.url }}/{{ page.url }}</a></p>
         </header>
     </div>
     
