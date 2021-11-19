@@ -5,8 +5,12 @@
       {%- assign idx = 0 -%}
       {%- assign url_segments = page.url | split: '/' -%}
       {%- for segment in url_segments -%}
-        {%- assign seg_len = segment.size -%}
-        {%- for i in (0..seg_len) -%}
+        {%- comment -%}
+          For some very strange reason "assign idx = idx | plus: segment.size | plus: 1" at this point causes 
+          an "Liquid Exception: no implicit conversion of nil into String" eventhough the same statement
+          works ok a few lines later (!?). So doing this absurd addition-by-for-loop below instead:
+        {%- endcomment -%}
+        {%- for i in (0..segment.size) -%}
           {%- assign idx = idx | plus: 1 -%}
         {%- endfor -%}
         {%- assign to_match = page.url | slice: idx, mod.basepath.size -%}
@@ -14,8 +18,7 @@
           {%- if mod.basepath.size > best_match.size -%}
             {%- assign current_module = mod -%}
             {%- assign best_match = mod.basepath -%}
-            {%- assign idx = idx | plus: best_match.size | plus: 1 -%}
-            {%- assign basepath_end_index = idx -%}
+            {%- assign basepath_end_index = idx | plus: best_match.size | plus: 1 -%}
             {%- break -%}
           {%- endif -%}
         {%- endif -%}
