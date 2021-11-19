@@ -1,47 +1,9 @@
 <!doctype html>
-  {%- comment -%}
-    The following code detects the current module from the page.url:
-    ================================================================
-  {%- endcomment -%}
-<<<<<<< HEAD
-  {%- for mod_hash in site.data.modules -%}
-    {%- assign mod = mod_hash[1] -%}
-    {%- assign best_match = "" -%}
-    {%- for idx in (0..page.url.size) -%}
-      {%- assign to_match = page.url | slice: idx, mod.basepath.size -%}
-      {%- if mod.basepath ==  to_match -%}
-        {%- if mod.basepath.size > best_match.size -%}
-          {%- assign current_module = mod -%}
-          {%- assign best_match = mod.basepath -%}
-          {%- assign basepath_end_index = idx | plus: best_match.size | plus: 1 -%}
-          {%- break -%}
-        {%- endif -%}
-      {%- endif -%}
-    {%- endfor -%}
-  {%- endfor -%}
-=======
   {%- include common/assignCurrentModule.html -%}
->>>>>>> bfdf52f (Korjattu moduleLink-makro, refaktoroitu valitun modulin ja version tunnistus omaan makroon)
   {%- if current_module -%}
     {%- capture pageTitle %}{%- include common/getPageTitle.html haystack=current_module.nav_items needle=page.id -%}{%- endcapture -%}
     {%- assign pageTitle = current_module.title | append: ' - ' | append: pageTitle -%}
     {%- capture filePath -%}{%- include common/getFilePath.html haystack=current_module.nav_items needle=page.id -%}{%- endcapture -%}
-    <!--  filePath: "{{ filePath }}"-->
-    {%- comment -%}
-      The following code detects the current module version from the page.url:
-      ========================================================================
-    {%- endcomment -%}
-<<<<<<< HEAD
-    {%- assign to_match = page.url | slice: basepath_end_index, page.url.size -%}
-    {%- assign to_match = to_match | split: "/" -%}
-    {%- for ver in current_module.versions -%}
-      {%- if ver.path == to_match[0] -%}
-        {%- assign pageModuleVersion = ver.path -%}
-        {%- break -%}
-      {%- endif -%}
-    {%- endfor -%}
-=======
->>>>>>> bfdf52f (Korjattu moduleLink-makro, refaktoroitu valitun modulin ja version tunnistus omaan makroon)
     {%- assign gh_repo = current_module.github.owner_name | append: '/' | append: current_module.github.repository_name -%}
     {%- assign pageId = current_module.basepath | append: '-' | append: page.id -%}
   {%- else -%}
