@@ -1,10 +1,10 @@
 {%- if include.module -%}
 <div class="modulenav">
   <nav class="navbar navbar-expand-md navbar-light">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#moduleNavBar" aria-controls="moduleNavBar" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".modulenav-toggleable" aria-controls="moduleNavBar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse flex-column align-items-start" id="moduleNavBar">
+    <div class="collapse navbar-collapse flex-column align-items-start modulenav-toggleable" id="moduleNavBar">
       <div class="nav-heading">
         <div class="moduletitle">{{ include.module.title }}</div>
         {%- if current_module_version -%}
@@ -59,6 +59,9 @@
           {%- endfor -%}
         {%- endfor -%}
       </ul>
+    </div>
+    <div class="vertical-heading collapse modulenav-toggleable navbar-expand-md show">
+      <div class="moduletitle">{{ include.module.title }} &mdash; {{ current_module_version.id }}</div>
     </div>
   </nav>
 </div>
