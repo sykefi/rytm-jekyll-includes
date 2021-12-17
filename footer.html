@@ -1,9 +1,19 @@
 <!-- FOOTER  -->
 <div id="footer_wrap" class="outer">
   <footer class="inner">
-    {% if site.github.is_project_page %}
-    <p class="copyright">Sivuston ylläpito <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
-    {% endif %}
+    <div class="row g-0 align-items-center">
+      <div class="col col-md-4 logo slot1"></div>
+      <div class="col col-md-4 logo slot2"></div>
+      <div class="col col-md-4 logo slot3"></div>
+    </div>
+    <div class="row g-0 align-items-right">
+      <div class="col copyright">
+        {% if site.github.is_project_page %}
+        <p class="copyright">Sivuston ylläpito <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+        {% endif %}
+      </div>
+    </div>
+    </div>
   </footer>
 </div>
 
