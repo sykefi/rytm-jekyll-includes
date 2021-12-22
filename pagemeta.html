@@ -13,7 +13,8 @@
     <div class="feedback">
         {%- assign feedbackURL = "https://github.com/" | append: gh_repo | append: "/issues/new?labels=Palaute&title="  -%}
         {%- if pageTitle -%}
-            {%- assign feedbackURL = feedbackURL | append: pageTitle | cgi_escape  -%}
+            {%- assign escapedTitle = pageTitle | cgi_escape -%}
+            {%- assign feedbackURL = feedbackURL | append: escapedTitle -%}
         {%- endif -%}
         <a href="{{ feedbackURL }}"><i class="far fa-comment-alt"></i>&nbsp;Raportoi virhe tai puute</a>
     </div>
