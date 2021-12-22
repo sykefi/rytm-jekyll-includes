@@ -2,8 +2,6 @@
     <div class="btn-group">
     {%- if include.status -%}
         <button type="button" disabled="disabled" class="status btn btn-{% case include.status %}{% when 'Keskeneräinen' %}danger{% when 'Luonnos' %}warning{% when 'Ehdotus' %}warning{% when 'Muutosehdotus' %}warning{% when 'Hyväksytty' %}success{% else %}info{% endcase %}">{{ include.status }}</button>
-    {%- else -%}
-        <button type="button" disabled="disabled" class="status btn btn-success">{{ include.status }}</button>
     {%- endif -%}
     </div>
     {%- if include.dict -%}
