@@ -53,9 +53,13 @@
       }
     }
 
-    function updateChangeHistoryLink(url) {                   
+    function updateChangeHistoryLink(url, branch) {              
       if (url.repo && url.path) {
-        var link = "<a href=\"https://github.com/" + url.repo + "/commits?path=" + url.path;
+        var link = "<a href=\"https://github.com/" + url.repo + "/commits";
+        if (branch !== "default") {
+          link += "/" + branch
+        }
+        link += "?path=" + url.path;
         if (url.limit) {
          link += "&until=" + url.limit;
         }
@@ -64,7 +68,11 @@
       }
     }
     
-    function setModifiedDate() { 
+    function setModifiedDate() {
+      var branch = "default";
+      if ("{{ current_module_version.development }}" === "true") {
+        branch = "develop";
+      }
       if ("{{ filePath }}" !== "" && document.getElementById('last-modified')) {
         if ("{{ gh_repo }}" !== "" && "{{ current_module.title }}" !== "") {
           var module_path = "{{ current_module.basepath}}";
@@ -96,8 +104,12 @@
                       path: "{{ filePath }}",
                       limit: included_commit_limit
                     };
-                    updateChangeHistoryLink(info);
-                    fetch("https://api.github.com/repos/{{ gh_repo }}/commits?path={{ filePath }}&until=" + included_commit_limit)
+                    updateChangeHistoryLink(info, branch);
+                    var url = "https://api.github.com/repos/{{ gh_repo }}/commits?path={{ filePath }}&until=" + included_commit_limit;
+                    if (branch !== "default") {
+                      url += "&sha=" + branch;
+                    }
+                    fetch(url)
                       .then((response) => {
                         return response.json();
                       })
@@ -113,8 +125,9 @@
                 repo: "{{ site.repository }}",
                 path: "docs/" + module_path + "/{{ filePath }}"
               };
-              updateChangeHistoryLink(info);
-              fetch("https://api.github.com/repos/{{ site.repository }}/commits?path=docs/" + module_path + "/{{ filePath }}")
+              updateChangeHistoryLink(info, branch);
+              var url = "https://api.github.com/repos/{{ site.repository }}/commits?path=docs/" + module_path + "/{{ filePath }}";
+              fetch(url)
                 .then((response) => {
                   return response.json();
                 })
