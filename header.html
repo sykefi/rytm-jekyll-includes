@@ -4,7 +4,11 @@
     {%- capture pageTitle %}{%- include common/getPageTitle.html haystack=current_module.nav_items needle=page.id -%}{%- endcapture -%}
     {%- assign pageTitle = current_module.title | append: ' - ' | append: pageTitle -%}
     {%- capture filePath -%}{%- include common/getFilePath.html haystack=current_module.nav_items needle=page.id -%}{%- endcapture -%}
-    {%- assign gh_repo = current_module.github.owner_name | append: '/' | append: current_module.github.repository_name -%}
+    {%- if current_module.github -%}
+      {%- assign gh_repo = current_module.github.owner_name | append: '/' | append: current_module.github.repository_name -%}
+    {%- else -%}
+      {%- assign gh_repo = site.repository -%}
+    {%- endif -%}
     {%- assign pageId = current_module.basepath | append: '-' | append: page.id -%}
   {%- else -%}
     {%- assign gh_repo = '' -%}
@@ -74,7 +78,8 @@
         branch = "develop";
       }
       if ("{{ filePath }}" !== "" && document.getElementById('last-modified')) {
-        if ("{{ gh_repo }}" !== "" && "{{ current_module.title }}" !== "") {
+        //Check that we have a non-empty current module, should at least have a title and basepath:
+        if ("{{ current_module.title }}" !== "" && "{{ current_module.basepath }}" !== "") {
           var module_path = "{{ current_module.basepath}}";
           if ("{{ current_module_version.path }}" !== "") {
             module_path += "/" + "{{ current_module_version.path }}";
@@ -122,11 +127,11 @@
                   });
             } else {
               var info = {
-                repo: "{{ site.repository }}",
+                repo: "{{ gh_repo }}",
                 path: "docs/" + module_path + "/{{ filePath }}"
               };
               updateChangeHistoryLink(info, branch);
-              var url = "https://api.github.com/repos/{{ site.repository }}/commits?path=docs/" + module_path + "/{{ filePath }}";
+              var url = "https://api.github.com/repos/{{ gh_repo }}/commits?path=docs/" + module_path + "/{{ filePath }}";
               fetch(url)
                 .then((response) => {
                   return response.json();
@@ -167,7 +172,7 @@
             <div class="betatag"><span title="{site.name}} -sivusto ei ole vielä täysin valmis">&beta;eta</span></div>
             {%- endif -%}
           </div>
-          <a class="owner" href="https://ym.fi/rakentaminen-ja-maankaytto">Ympäristöministeriö / Rakentaminen ja maankäyttö</a>
+          <a class="owner" href="https://syke.fi">Suomen ympäristökeskus</a>
         </header>
         <header class="print-title-block">
           <a href="{{ site.home }}"><h1 class="title">{{site.name_short}}</h1></a>
