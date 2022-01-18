@@ -64,5 +64,11 @@
       <div class="moduletitle">{{ include.module.title }}{%- if current_module_version -%}&mdash; {{ current_module_version.id }}{%- endif -%}</div>
     </div>
   </nav>
+  {%- if include.module.note -%}
+  <div class="alert alert-info" role="alert">
+    <b>Huomatus</b>:<br/>
+    {{ include.module.note }}
+  </div>
+  {%- endif -%}
 </div>
 {%- endif -%}
