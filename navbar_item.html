@@ -1,14 +1,14 @@
 <li class="{{ listclass }}">
-{%- if include.item.kind == "module" -%}
-    {%- assign navdata = site.data.modules[include.item.id] -%}
-    {%- assign default_version = navdata.versions | where_exp: "version", "version.default" | first -%}
-    {%- unless default_version -%}
-        {%- assign default_version = navdata.versions | first -%}
-    {%- endunless -%}   
-{%- elsif include.item.kind == "project" -%}
-    {%- assign navdata = site.data.projects[includes.item.id] -%}
-{%- endif -%}
+{%- assign navdata = site.data.modules[include.item.id] -%}
 {%- if navdata -%}
+    {%- if navdata.versions -%}
+        {%- assign default_version = navdata.versions | where_exp: "version", "version.default" | first -%}
+        {%- unless default_version -%}
+            {%- assign default_version = navdata.versions | first -%}
+        {%- endunless -%}
+    {%- else -%}
+        {%- assign default_version = nil -%}
+    {%- endif -%}
     {%- if navdata.basepath and navdata.nav_items -%}
         {%- assign basepath = navdata.basepath -%}
         {%- assign default_item = navdata.nav_items | where_exp: "item", "item.default" | first -%}
@@ -16,18 +16,14 @@
             {%- assign default_item = navdata.nav_items | first -%}
         {%- endunless -%}
         {%- capture default_path -%}{%- include common/getNavItemPath.html item=default_item -%}{%- endcapture -%}
-        {%- if include.item.kind == "module" -%}
-            {%- if default_version -%}
-                {%- assign path = basepath | append: '/' | append: default_version.path | append: '/' | append: default_path -%}
-            {%- else -%}
-                {%- assign path = basepath | append: '/' | append: default_path -%}
-            {%- endif --%}
-        {%- elsif include.item.kind == "project" -%}
+        {%- if default_version -%}
+            {%- assign path = basepath | append: '/' | append: default_version.path | append: '/' | append: default_path -%}
+        {%- else -%}
             {%- assign path = basepath | append: '/' | append: default_path -%}
-        {%- endif -%}
+        {%- endif --%}
         <a class="{{ linkclass }} {{include.itemclass}}" href="{{ site.url }}/{{ path }}">{{ navdata.title }}</a>
     {%- else -%}
-        <span class="{{ linkclass }} {{include.itemclass}} disabled">{{ navdata.title }}</a>
+        <span class="{{ linkclass }} {{include.itemclass}} disabled">{{ navdata.title }}</span>
     {%- endif -%}
 {%- endif -%}
 </li>
