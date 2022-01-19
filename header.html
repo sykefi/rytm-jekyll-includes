@@ -119,7 +119,7 @@
                         return response.json();
                       })
                       .then((commits) => {
-                        if (Array.isArray(commits)) {
+                        if (Array.isArray(commits) && commits.length > 0) {
                           updateModifiedField(commits[0]);
                         }
                       });
