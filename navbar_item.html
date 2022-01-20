@@ -1,29 +1,33 @@
 <li class="{{ listclass }}">
-{%- assign navdata = site.data.modules[include.item.id] -%}
-{%- if navdata -%}
-    {%- if navdata.versions -%}
-        {%- assign default_version = navdata.versions | where_exp: "version", "version.default" | first -%}
-        {%- unless default_version -%}
-            {%- assign default_version = navdata.versions | first -%}
-        {%- endunless -%}
-    {%- else -%}
-        {%- assign default_version = nil -%}
-    {%- endif -%}
-    {%- if navdata.basepath and navdata.nav_items -%}
-        {%- assign basepath = navdata.basepath -%}
-        {%- assign default_item = navdata.nav_items | where_exp: "item", "item.default" | first -%}
-        {%- unless default_item -%}
-            {%- assign default_item = navdata.nav_items | first -%}
-        {%- endunless -%}
-        {%- capture default_path -%}{%- include common/getNavItemPath.html item=default_item -%}{%- endcapture -%}
-        {%- if default_version -%}
-            {%- assign path = basepath | append: '/' | append: default_version.path | append: '/' | append: default_path -%}
+{%- if include.item.type == 'link' and include.item.href and include.item.title -%}
+    <a class="{{ linkclass }} {{include.itemclass}}" href="{{ include.item.href }}" title="Linkki johtaa ulkopuoliselle sivustolle">{{ include.item.title }}&nbsp;<i class="fas fa-external-link-square-alt"></i></a>
+{%- else -%}    
+    {%- assign navdata = site.data.modules[include.item.id] -%}
+    {%- if navdata -%}
+        {%- if navdata.versions -%}
+            {%- assign default_version = navdata.versions | where_exp: "version", "version.default" | first -%}
+            {%- unless default_version -%}
+                {%- assign default_version = navdata.versions | first -%}
+            {%- endunless -%}
         {%- else -%}
-            {%- assign path = basepath | append: '/' | append: default_path -%}
-        {%- endif --%}
-        <a class="{{ linkclass }} {{include.itemclass}}" href="{{ site.url }}/{{ path }}">{{ navdata.title }}</a>
-    {%- else -%}
-        <span class="{{ linkclass }} {{include.itemclass}} disabled">{{ navdata.title }}</span>
+            {%- assign default_version = nil -%}
+        {%- endif -%}
+        {%- if navdata.basepath and navdata.nav_items -%}
+            {%- assign basepath = navdata.basepath -%}
+            {%- assign default_item = navdata.nav_items | where_exp: "item", "item.default" | first -%}
+            {%- unless default_item -%}
+                {%- assign default_item = navdata.nav_items | first -%}
+            {%- endunless -%}
+            {%- capture default_path -%}{%- include common/getNavItemPath.html item=default_item -%}{%- endcapture -%}
+            {%- if default_version -%}
+                {%- assign path = basepath | append: '/' | append: default_version.path | append: '/' | append: default_path -%}
+            {%- else -%}
+                {%- assign path = basepath | append: '/' | append: default_path -%}
+            {%- endif --%}
+            <a class="{{ linkclass }} {{include.itemclass}}" href="{{ site.url }}/{{ path }}">{{ navdata.title }}</a>
+        {%- else -%}
+            <span class="{{ linkclass }} {{include.itemclass}} disabled">{{ navdata.title }}</span>
+        {%- endif -%}
     {%- endif -%}
 {%- endif -%}
 </li>
