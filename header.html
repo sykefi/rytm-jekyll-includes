@@ -14,7 +14,7 @@
     {%- assign gh_repo = site.repository -%}
     {%- assign pageId = page.id -%}
     {%- assign pageTitle = page.title -%}
-    {%- assign filePath = page.name -%}
+    {%- assign filePath = 'docs/' | append: page.name -%}
   {%- endif -%}
 <html lang="{{ site.lang | default: 'fi-FI' }}">
   <head>
@@ -119,7 +119,7 @@
                         return response.json();
                       })
                       .then((commits) => {
-                        if (Array.isArray(commits) && commits.length > 0) {
+                        if (Array.isArray(commits)) {
                           updateModifiedField(commits[0]);
                         }
                       });
