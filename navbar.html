@@ -25,7 +25,7 @@
         {%- endif -%}
         {%- for item in nav_items -%}
           {%- include common/navbar_item.html item=item -%}
-          {%- for subitem in item.subitems -%}
+          {%- for subitem in item.nav_items -%}
             {%- include common/navbar_item.html item=subitem itemclass="sublevel" -%}
           {%- endfor -%}
         {%- endfor -%}

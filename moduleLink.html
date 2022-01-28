@@ -10,7 +10,7 @@
                 {%- assign default_version = module.versions | first -%}
             {%- endunless -%}
             {%- assign traversed = "" | split: "," -%}
-            {%- capture depending_version_path -%}{%- include common/getDependencyVersionPath.html current_module=current_module current_module_version=current_module_version target=module targetId=include.moduleId traversed=traversed -%}{%- endcapture -%}
+            {%- capture depending_version_path -%}{%- include common/getDependencyVersionPath.html current_module=current_module current_module_version=current_module_version target=module targetModuleId=include.moduleId traversed=traversed -%}{%- endcapture -%}
             {%- if depending_version_path == "" -%}
                 {%- assign depending_version_path = default_version.path -%}
             {%- endif -%}

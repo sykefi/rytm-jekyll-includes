@@ -1,8 +1,10 @@
 <li class="{{ listclass }}">
-{%- if include.item.type == 'link' and include.item.href and include.item.title -%}
+{%- if include.item.type == 'link' -%}
+    {%- if include.item.href and include.item.title -%}
     <a class="{{ linkclass }} {{include.itemclass}}" href="{{ include.item.href }}" title="Linkki johtaa ulkopuoliselle sivustolle">{{ include.item.title }}&nbsp;<i class="fas fa-external-link-square-alt"></i></a>
-{%- else -%}    
-    {%- assign navdata = site.data.modules[include.item.id] -%}
+    {%- endif -%}
+{%- elsif include.item.type == 'module' -%}    
+    {%- assign navdata = site.data.modules[include.item.moduleId] -%}
     {%- if navdata -%}
         {%- if navdata.versions -%}
             {%- assign default_version = navdata.versions | where_exp: "version", "version.default" | first -%}

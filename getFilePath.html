@@ -1,20 +1,22 @@
 {%- if include.needle -%}
     {%- for item in include.haystack -%}
-        {%- if item.id == include.needle -%}
-            {%- if item.file -%}
-                {{ item.file }}
+        {%- if item.pageId == include.needle -%}
+            {%- if item.gitHubFile -%}
+                {{ item.gitHubFile }}
             {%- else -%}
-                {{ item.id | append: '/index.md' }}
+                {{ item.pageId | append: '/index.md' }}
             {%- endif -%}
             {%- break -%}
         {%- else -%}
-            {%- if item.subitems -%}
-                {%- capture ret -%}{%- include common/getFilePath.html haystack=item.subitems needle=include.needle -%}{%- endcapture -%}
+            {%- if item.nav_items -%}
+                {%- capture ret -%}{%- include common/getFilePath.html haystack=item.nav_items needle=include.needle -%}{%- endcapture -%}
                 {%- if ret != "" -%}
                     {%- if item.path -%}
                         {{ item.path }}
-                    {%- else -%}
-                        {{ item.id | append: '/' }}
+                    {%- elsif item.pageId -%}
+                        {{ item.pageId | append: '/' }}
+                    {%- elsif item.groupId -%}
+                        {{ item.groupId | append: '/' }}
                     {%- endif -%}
                     {{ ret }}
                     {%- break -%}

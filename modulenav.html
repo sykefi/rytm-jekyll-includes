@@ -29,12 +29,12 @@
       <ul class="nav flex-column align-items-start">
         {%- for item in include.module.nav_items -%}
           {%- capture path %}{%- include common/getNavItemPath.html item=item -%}{%- endcapture -%}
-          {%- if item.heading -%}
+          {%- if item.groupId -%}
           <li class="nav-item header">
             <span>{{ item.title }}</span>
           </li>
           {%- else -%}
-            {%- assign to_match = include.module.basepath | append: '-' | append: item.id -%}
+            {%- assign to_match = include.module.basepath | append: '-' | append: item.pageId -%}
             {%- if pageId == to_match -%}
               {%- assign item_class = "active" -%}
             {%- else -%}
@@ -45,8 +45,8 @@
           </li>
           {%- endif -%}
           </li>
-          {%- for subitem in item.subitems -%}
-            {%- assign to_match = include.module.basepath | append: '-' | append: subitem.id -%}
+          {%- for subitem in item.nav_items -%}
+            {%- assign to_match = include.module.basepath | append: '-' | append: subitem.pageId -%}
             {%- if pageId == to_match -%}
               {%- assign item_class = "active" -%}
             {%- else -%}
@@ -65,7 +65,7 @@
     </div>
   </nav>
   {%- if include.module.note -%}
-  <div class="alert alert-info" role="alert">
+  <div class="alert alert-info modulenav-toggleable collapse {% if page.layout != 'ea-frame' -%}show{%- endif %}" role="alert">
     <b>Huomatus</b>:<br/>
     {{ include.module.note }}
   </div>

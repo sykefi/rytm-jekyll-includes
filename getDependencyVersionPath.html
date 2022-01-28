@@ -1,18 +1,18 @@
-{%- if include.targetId and include.target and include.current_module and include.current_module_version and include.traversed -%}
+{%- if include.targetModuleId and include.target and include.current_module and include.current_module_version and include.traversed -%}
     {%- for dep in include.current_module_version.dependencies -%}
-        {%- if include.traversed contains dep.module -%}
+        {%- if include.traversed contains dep.moduleId -%}
             {%- break -%}
         {%- else -%}
-            {%- assign traversed = include.traversed | push: dep.module -%}
+            {%- assign traversed = include.traversed | push: dep.moduleId -%}
         {%- endif -%}
         {%- assign dep_version = include.target.versions | where_exp: "version", "version.id == dep.version" | first -%}
-        {%- if dep.module == include.targetId -%}
+        {%- if dep.moduleId == include.targetModuleId -%}
             {{dep_version.path}}
             {%- break -%}
         {%- else -%}
-            {%- assign mod = site.data.modules[dep.module] -%}
+            {%- assign mod = site.data.modules[dep.moduleId] -%}
             {%- if mod -%}
-                {%- capture version_path -%}{%- include common/getDependencyVersionPath.html current_module=mod current_module_version=dep_version target=include.target targetId=include.targetId traversed=traversed -%}{%- endcapture-%}
+                {%- capture version_path -%}{%- include common/getDependencyVersionPath.html current_module=mod current_module_version=dep_version target=include.target targetModuleId=include.targetModuleId traversed=traversed -%}{%- endcapture-%}
                 {%- if version_path -%}
                     {{version_path}}
                     {%- break -%}
