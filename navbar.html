@@ -15,8 +15,8 @@
           {%- assign nav_items = menu.nav_items -%}
           {%- assign linkclass = "dropdown-item" -%}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-{{menu.id}}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ menu.title }}</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown-{{menu.id}}">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-{{menu.groupId}}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ menu.title }}</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown-{{menu.groupId}}">
         {%- else -%}
           {%- assign nav_items = "" | split: "," -%}
           {%- assign nav_items = nav_items | push: menu -%}
