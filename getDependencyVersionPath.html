@@ -1,4 +1,4 @@
-{%- if include.targetModuleId and include.target and include.current_module and include.current_module_version and include.traversed -%}
+{%- if include.targetModuleId and include.target and include.current_module_version and include.traversed -%}
     {%- for dep in include.current_module_version.dependencies -%}
         {%- if include.traversed contains dep.moduleId -%}
             {%- break -%}
@@ -10,9 +10,8 @@
             {{dep_version.path}}
             {%- break -%}
         {%- else -%}
-            {%- assign mod = site.data.modules[dep.moduleId] -%}
-            {%- if mod -%}
-                {%- capture version_path -%}{%- include common/getDependencyVersionPath.html current_module=mod current_module_version=dep_version target=include.target targetModuleId=include.targetModuleId traversed=traversed -%}{%- endcapture-%}
+            {%- if site.data.modules[dep.moduleId] -%}
+                {%- capture version_path -%}{%- include common/getDependencyVersionPath.html current_module_version=dep_version target=include.target targetModuleId=include.targetModuleId traversed=traversed -%}{%- endcapture-%}
                 {%- if version_path -%}
                     {{version_path}}
                     {%- break -%}
