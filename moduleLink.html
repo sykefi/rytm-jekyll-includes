@@ -1,25 +1,29 @@
 {%- if include.moduleId and include.path and include.title -%}
-    {%- if current_module == nil -%}
+    {%- if current_module_version == nil -%}
         {%- include common/assignCurrentModule.html -%}
     {%- endif -%}
-    {%- assign module = site.data.modules[include.moduleId] -%}
-    {%- if module -%}
-        {%- if module.versions -%}
-            {%- assign default_version = module.versions | where_exp: "version", "version.default" | first -%}
-            {%- unless default_version -%}
-                {%- assign default_version = module.versions | first -%}
-            {%- endunless -%}
-            {%- assign traversed = "" | split: "," -%}
-            {%- capture depending_version_path -%}{%- include common/getDependencyVersionPath.html current_module=current_module current_module_version=current_module_version target=module targetModuleId=include.moduleId traversed=traversed -%}{%- endcapture -%}
-            {%- if depending_version_path == "" -%}
-                {%- assign depending_version_path = default_version.path -%}
+    {%- if current_module_version -%}
+        {%- assign module = site.data.modules[include.moduleId] -%}
+        {%- if module -%}
+            {%- if module.versions -%}
+                {%- assign default_version = module.versions | where_exp: "version", "version.default" | first -%}
+                {%- unless default_version -%}
+                    {%- assign default_version = module.versions | first -%}
+                {%- endunless -%}
+                {%- assign traversed = "" | split: "," -%}
+                {%- capture depending_version_path -%}{%- include common/getDependencyVersionPath.html current_module_version=current_module_version target=module targetModuleId=include.moduleId traversed=traversed -%}{%- endcapture -%}
+                {%- if depending_version_path == "" -%}
+                    {%- assign depending_version_path = default_version.path -%}
+                {%- endif -%}
+                <a href="{{site.url}}/{{module.basepath}}/{{depending_version_path}}/{{include.path}}">{{include.title}}</a>
+            {%- else -%}
+                <a href="{{site.url}}/{{module.basepath}}/{{include.path}}">{{include.title}}</a>
             {%- endif -%}
-            <a href="{{site.url}}/{{module.basepath}}/{{depending_version_path}}/{{include.path}}">{{include.title}}</a>
         {%- else -%}
-            <a href="{{site.url}}/{{module.basepath}}/{{include.path}}">{{include.title}}</a>
+            <span class="linkerror" title="Tuntematon moduli '{{include.moduleId}}'">[Linkitysvirhe]</span> 
         {%- endif -%}
     {%- else -%}
-        <span class="linkerror" title="Tuntematon moduli '{{include.moduleId}}'">[Linkitysvirhe]</span> 
+        <span class="linkerror" title="Linkkiä ei voi muodostaa, lähdemodulin versio ei tiedossa">[Linkitysvirhe]</span> 
     {%- endif -%}
 {%- else -%}
     <span class="linkerror" title="Joko moduleId, path tai title puuttuvat">[Linkitysvirhe]</span> 
