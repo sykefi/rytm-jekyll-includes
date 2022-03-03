@@ -11,14 +11,7 @@
             {%- if item.nav_items -%}
                 {%- capture ret -%}{%- include common/getFilePath.html haystack=item.nav_items needle=include.needle -%}{%- endcapture -%}
                 {%- if ret != "" -%}
-                    {%- if item.path -%}
-                        {{ item.path }}
-                    {%- elsif item.pageId -%}
-                        {{ item.pageId | append: '/' }}
-                    {%- elsif item.groupId -%}
-                        {{ item.groupId | append: '/' }}
-                    {%- endif -%}
-                    {{ ret }}
+                    {%- include common/getNavItemPath.html item=item -%}{{ ret }}
                     {%- break -%}
                 {%- endif -%}
             {%- endif -%}
