@@ -8,10 +8,12 @@
     </div>
     <div class="row g-0 align-items-right">
       <div class="col copyright">
-        {% if site.github.is_project_page %}
+        {%- if site.github.is_project_page -%}
         <p class="copyright">Sivuston ylläpito <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
-        {% endif %}
-        <p><a href="/accessibility_statement.html">Saavutettavuusseloste</a></p>
+        {%- endif -%}
+        {%- if site.accessibility_statement_url -%}
+        <p><a href="{{ site.accessibility_statement_url }}">Saavutettavuusseloste</a></p>
+        {%- endif -%}
       </div>
     </div>
     </div>
