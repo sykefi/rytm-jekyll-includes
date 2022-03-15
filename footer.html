@@ -25,27 +25,33 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 {%- if page.layout == 'ea-frame' -%}
 <script src="{{ site.url }}{{ page.url }}/js/displayToc.js"></script>
-  <script>
-    $( window ).resize(function() {
+<script>
+  $( window ).resize(function() {
+    resizePage();
+    $('#tocIFrame').width('20%').css('min-width','20em').css('height','100em').css('vertical-align: top');;
+    $('#contentIFrame').width('78%').css('height','100em').css('vertical-align: top');
+    $('#resizeFrames').hide();
+  });
+  $( document ).ready(function() {
+    initLoad(this,'toc.html','{{ page.defaultDiagram }}');
+  
+    /* Terrible hack to get the EA diagram to resize to fit after 'enough' time from loading */
+    window.setTimeout(function() {
       resizePage();
       $('#tocIFrame').width('20%').css('min-width','20em').css('height','100em').css('vertical-align: top');;
       $('#contentIFrame').width('78%').css('height','100em').css('vertical-align: top');
       $('#resizeFrames').hide();
-    });
-    $( document ).ready(function() {
-      initLoad(this,'toc.html','{{ page.defaultDiagram }}');
+    }, 500);
     
-      /* Terrible hack to get the EA diagram to resize to fit after 'enough' time from loading */
-      window.setTimeout(function() {
-        resizePage();
-        $('#tocIFrame').width('20%').css('min-width','20em').css('height','100em').css('vertical-align: top');;
-        $('#contentIFrame').width('78%').css('height','100em').css('vertical-align: top');
-        $('#resizeFrames').hide();
-      }, 500);
-     
-    });
+  });
+  $('.modulenav > .navbar').removeClass('navbar-expand-md');
+</script>
+{%- elsif page.layout == "generic-frame" -%}
+<script>
+  $( document ).ready(function() {
     $('.modulenav > .navbar').removeClass('navbar-expand-md');
-  </script>
+  });
+</script>
 {%- else -%}
 <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
 <script>
