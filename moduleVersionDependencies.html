@@ -1,0 +1,16 @@
+{%- if include.moduleVersion -%}
+<ul class="dependency-list">
+    {%- for dep in include.moduleVersion.dependencies -%}
+        {%- assign dep_module = site.data.modules[dep.moduleId] -%}
+        {%- if dep_module -%}
+            {%- assign dep_version = dep_module.versions | where_exp: "version", "version.id == dep.version" | first -%}
+            <li class="dependency-item">
+                <a href="{{site.url}}/{{dep_module.basepath}}/{{dep_version.path}}/" title="{{dep_version.title}}">{{dep_module.title}}: {{ dep_version.id }}</a>
+            </li>
+            {%- include common/moduleVersionDependencies.html moduleVersion=dep_version -%}
+        {%- else -%}
+            <ul class="dependency-list">Tuntematon riippuvuus: {{dep.moduleId}}</ul>
+        {%- endif -%}
+    {%- endfor -%}
+</ul>
+{%- endif -%}
