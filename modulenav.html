@@ -8,10 +8,12 @@
       <div class="nav-heading">
         <div class="moduletitle">{{ include.module.title }}</div>
         {%- if current_module_version -%}
-        <div class="btn-group dropleft">
+        <div class="btn-toolbar justify-content-between">
+          <div class="btn-group dropleft">
             <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Versio {{ current_module_version.id }}
             </button>
+            
             <div class="dropdown-menu">
                 <span class="dropdown-header">Saatavilla olevat versiot</span>
                 {%- assign my_ver = '/' | append: current_module_version.path | append: '/' -%}
@@ -20,7 +22,25 @@
                 <a class="dropdown-item" href="{{ site.url }}{{ page.url | replace: my_ver, other_ver }}" title="{{ version.date | date: '%d.%m.%Y' }}">{{ version.id }}:&nbsp;{{ version.title }}</a>
                 {%- endfor -%}
             </div>
-        </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#moduleInfoCard" aria-expanded="false" aria-controls="moduleInfoCard">Lisätietoja</button>
+          </div>
+        </div> 
+        <div class="collapse" id="moduleInfoCard">
+          <div class="card">
+            <div class="card-body">
+              Omistajuus: {{ current_module.ownership | default: 'Tuntematon' }}<br/>
+              {%- if current_module.github -%}
+              GitHub-repo: <a href="https://github.com/{{ current_module.github.owner_name }}/{{ current_module.github.repository_name }}{%- if current_module_version.git-branch -%}/tree/{{current_module_version.git-branch}}{%- endif -%}/">{{ current_module.github.owner_name }}/{{ current_module.github.repository_name }}</a>&nbsp;{%- if current_module_version.git-branch -%}({{current_module_version.git-branch}}){%- endif -%}<br/>
+              {%- endif -%}
+              {%- if current_module_version.dependencies -%} 
+              Riippuvuudet:
+              {%- include common/moduleVersionDependencies.html moduleVersion=current_module_version -%}
+              {%- endif -%}
+            </div>
+          </div>
+        </div>  
           {%- assign basepath = include.module.basepath | append: "/" | append: current_module_version.path -%}
         {%- else -%}
           {%- assign basepath = include.module.basepath -%}
