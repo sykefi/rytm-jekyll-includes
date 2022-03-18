@@ -20,11 +20,11 @@
                 <a href="{{site.url}}/{{module.basepath}}/{{include.path}}">{{include.title}}</a>
             {%- endif -%}
         {%- else -%}
-            <span class="linkerror" title="Tuntematon moduli '{{include.moduleId}}'">[Linkitysvirhe]</span> 
+            <span class="badge bg-danger" title="Tuntematon moduli '{{include.moduleId}}'">[Linkitysvirhe]</span> 
         {%- endif -%}
     {%- else -%}
-        <span class="linkerror" title="Linkkiä ei voi muodostaa, lähdemodulin versio ei tiedossa">[Linkitysvirhe]</span> 
+        <span class="badge bg-danger" title="Linkkiä ei voi muodostaa, lähdemodulin versio ei tiedossa">[Linkitysvirhe]</span> 
     {%- endif -%}
 {%- else -%}
-    <span class="linkerror" title="Joko moduleId, path tai title puuttuvat">[Linkitysvirhe]</span> 
+    <span class="badge bg-danger" title="Joko moduleId, path tai title puuttuvat">[Linkitysvirhe]</span> 
 {%- endif -%}
