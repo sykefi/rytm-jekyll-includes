@@ -4,12 +4,22 @@
         {%- assign dep_module = site.data.modules[dep.moduleId] -%}
         {%- if dep_module -%}
             {%- assign dep_version = dep_module.versions | where_exp: "version", "version.id == dep.version" | first -%}
-            <li class="dependency-item">
-                <a href="{{site.url}}/{{dep_module.basepath}}/{{dep_version.path}}/" title="{{dep_version.title}}">{{dep_module.title}}: {{ dep_version.id }}</a>
-            </li>
-            {%- include common/moduleVersionDependencies.html moduleVersion=dep_version -%}
+            {%- if dep_version -%}
+                <li class="dependency-item">
+                    <a href="{{site.url}}/{{dep_module.basepath}}/{{dep_version.path}}/" title="{{dep_version.title}}">{{dep_module.title}}: {{ dep_version.id }}</a>
+                    {% assign depver = dep.moduleId | append: dep.version -%}
+                    {%- if include.traversed contains depver -%}
+                    <span class="badge bg-danger" title="Riippuvuussykli tunnistettu: '{{dep.moduleId}}:{{dep.version}}'">Virhe</span>
+                    {%- else -%}
+                        {%- assign traversed = include.traversed | push: depver -%}
+                        {%- include common/moduleVersionDependencies.html moduleVersion=dep_version traversed=traversed -%}
+                    {%- endif -%}
+                </li>
+            {%- else -%}
+                <span class="badge bg-danger" title="Tuntematon modulin versio '{{dep.moduleId}}:{{dep.version}}'">Virhe</span>
+            {%- endif -%}
         {%- else -%}
-            <ul class="dependency-list">Tuntematon riippuvuus: {{dep.moduleId}}</ul>
+            <span class="badge bg-danger" title="Tuntematon moduli '{{dep.moduleId}}'">Virhe</span>
         {%- endif -%}
     {%- endfor -%}
 </ul>
