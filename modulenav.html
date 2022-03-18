@@ -32,11 +32,12 @@
             <div class="card-body">
               Omistajuus: {{ current_module.ownership | default: 'Tuntematon' }}<br/>
               {%- if current_module.github -%}
-              GitHub-repo: <a href="https://github.com/{{ current_module.github.owner_name }}/{{ current_module.github.repository_name }}{%- if current_module_version.git-branch -%}/tree/{{current_module_version.git-branch}}{%- endif -%}/">{{ current_module.github.owner_name }}/{{ current_module.github.repository_name }}</a>&nbsp;{%- if current_module_version.git-branch -%}({{current_module_version.git-branch}}){%- endif -%}<br/>
+                GitHub-repo: <a href="https://github.com/{{ current_module.github.owner_name }}/{{ current_module.github.repository_name }}{%- if current_module_version.git-branch -%}/tree/{{current_module_version.git-branch}}{%- endif -%}/">{{ current_module.github.owner_name }}/{{ current_module.github.repository_name }}</a>&nbsp;{%- if current_module_version.git-branch -%}({{current_module_version.git-branch}}){%- endif -%}<br/>
               {%- endif -%}
-              {%- if current_module_version.dependencies -%} 
-              Riippuvuudet:
-              {%- include common/moduleVersionDependencies.html moduleVersion=current_module_version -%}
+              {%- if current_module_version.dependencies -%}
+                {%- assign traversed = "" | split: "," -%}
+                Riippuvuudet:
+                {%- include common/moduleVersionDependencies.html moduleVersion=current_module_version traversed=traversed -%}
               {%- endif -%}
             </div>
           </div>
