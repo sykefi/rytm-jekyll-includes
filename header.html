@@ -80,14 +80,19 @@
       if ("{{ filePath }}" !== "" && document.getElementById('last-modified')) {
         //Check that we have a non-empty current module, should at least have a title and basepath:
         if ("{{ current_module.title }}" !== "" && "{{ current_module.basepath }}" !== "") {
+          var request_url = "https://api.github.com/repos/{{ site.repository }}/contents/docs/";
           var module_path = "{{ current_module.basepath}}";
           if ("{{ current_module_version.path }}" !== "") {
             module_path += "/" + "{{ current_module_version.path }}";
           }
+          request_url += module_path;
+          if ("{{ site.branch }}" !== "") {
+            request_url += "?ref={{ site.branch | url_encode }}"; 
+          }
           /*
             limit the commits to the linked submodule commit date:
           */
-          fetch("https://api.github.com/repos/{{ site.repository }}/contents/docs/" + module_path)
+          fetch(request_url)
           .then((response) => {
             if (!response.ok) {
               throw new Error(response.statusText);

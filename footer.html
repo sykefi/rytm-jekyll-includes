@@ -24,7 +24,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.1/umd/popper.min.js" integrity="sha512-8jeQKzUKh/0pqnK24AfqZYxlQ8JdQjl9gGONwGwKbJiEaAPkD3eoIjz3IuX4IrP+dnxkchGUeWdXLazLHin+UQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 {%- if page.layout == 'ea-frame' -%}
-<script src="{{ site.url }}{{ page.url }}/js/displayToc.js"></script>
+{%- assign last_char = page.url | slice: -1,1 -%}
+{%- assign page_url_segments = page.url | split: '/' -%}
+{%- assign script_url = site.url -%}
+{%- for seg in page_url_segments -%}
+  {%- if forloop.last != true or last_char == '/' -%}
+    {%- if forloop.first != true -%}
+      {% assign script_url = script_url | append: '/' -%}
+    {%- endif -%}
+    {% assign script_url = script_url | append: seg -%}
+  {%- endif -%}
+{%- endfor -%}
+<script src="{{ script_url }}/js/displayToc.js"></script>
 <script>
   $( window ).resize(function() {
     resizePage();
