@@ -26,6 +26,9 @@
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" type="text/css" media="print" href="{{ '/assets/css/style-print.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    {%- if page.layout == "swagger-ui" -%}
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@4/swagger-ui.css">
+    {%- endif -%}
     <title>{{ pageTitle }}</title>
 {% seo %}
 {% if site.google_analytics %}
@@ -80,14 +83,19 @@
       if ("{{ filePath }}" !== "" && document.getElementById('last-modified')) {
         //Check that we have a non-empty current module, should at least have a title and basepath:
         if ("{{ current_module.title }}" !== "" && "{{ current_module.basepath }}" !== "") {
+          var request_url = "https://api.github.com/repos/{{ site.repository }}/contents/docs/";
           var module_path = "{{ current_module.basepath}}";
           if ("{{ current_module_version.path }}" !== "") {
             module_path += "/" + "{{ current_module_version.path }}";
           }
+          request_url += module_path;
+          if ("{{ site.branch }}" !== "") {
+            request_url += "?ref={{ site.branch | url_encode }}"; 
+          }
           /*
             limit the commits to the linked submodule commit date:
           */
-          fetch("https://api.github.com/repos/{{ site.repository }}/contents/docs/" + module_path)
+          fetch(request_url)
           .then((response) => {
             if (!response.ok) {
               throw new Error(response.statusText);
